@@ -1,7 +1,7 @@
 import axios from 'axios';  // Ensure axios is imported
 import * as actionTypes from '../constants/stateProductConstant';  // Ensure actionTypes is imported correctly
 
-const URL = 'http://localhost:8000';
+const URL = 'https://indiculture.onrender.com';
 
 export const getStatesProducts = (state) => async (dispatch) => {
   try {

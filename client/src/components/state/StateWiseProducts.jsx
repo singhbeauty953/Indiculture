@@ -4,7 +4,7 @@ import { getStatesProducts } from '../../redux/actions/stateProductActions';
 
 export const getStatesProducts = (state) => async (dispatch) => {
   try {
-    const { data } = await axios.get(`http://localhost:8000/stateProducts?state=${state}`);
+    const { data } = await axios.get(`https://indiculture.onrender.com/stateProducts?state=${state}`);
 
     dispatch({
       type: actionTypes.GET_STATESPRODUCTS_SUCCESS,

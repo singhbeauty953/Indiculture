@@ -50,7 +50,7 @@ app.listen(port, err => {
     console.error('Error starting the server:', err.message);
     process.exit(1);
   }
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server is running on https://indiculture.onrender.com:${port}`);
 });
 
 DefaultStateData();
