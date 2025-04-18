@@ -178,11 +178,11 @@ const loginUser = async () => {
            <TextField variant='standard' onChange={(e)=> onValueChange(e)} name='username' label="Enter Username" />
            {error && <Error>Please Enter valid username and password</Error>}
            <TextField variant='standard' onChange={(e)=> onValueChange(e)} name='password' label="Enter Pasword" />
-           <Text>By continuing, you agree to flipkart's Term of use and privacy policy.</Text>
+           <Text>By continuing, you agree to IndiCulture's Term of use and privacy policy.</Text>
            <LoginButton onClick={()=> loginUser()}>Login</LoginButton>
            <Typography style={{textAlign:'center'}}>OR</Typography>
            <RequestOtpButton>Request OTP</RequestOtpButton>
-           <CreateAccount onClick={()=> togglesignup()}>New to Flipkat? Create an account</CreateAccount>
+           <CreateAccount onClick={()=> togglesignup()}>New to Indiculture? Create an account</CreateAccount>
             
 
         </Wrapper>
