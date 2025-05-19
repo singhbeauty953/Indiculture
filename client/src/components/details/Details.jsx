@@ -59,7 +59,7 @@ const Details = () => {
   const { id } = useParams();
 
   const { loading, product } = useSelector(state => state.getProductDetails);
-  const fassured = 'https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/fa_62673a.png';
+
   const adURL = 'https://rukminim1.flixcart.com/lockin/774/185/images/CCO__PP_2019-07-14.png?q=50';
   const date = new Date(new Date().getTime()+(5*24*60*60*1000));
 
@@ -80,9 +80,6 @@ const Details = () => {
             <Typography variant="h5">{product.title.longTitle}</Typography>
             <Typography style={{ marginTop: 5, color: '#878787', fontSize: 14 }}>
               8 Ratings & 1 Reviews
-              <Box component="span">
-                <img src={fassured} alt="fassured" style={{ width: 77, marginLeft: 20 }} />
-              </Box>
             </Typography>
             <Typography style={{ marginTop: 10 }}>
               <Box component="span" style={{ fontWeight: 600, fontSize: 28 }}>₹{product.price.cost}</Box>
@@ -109,16 +106,16 @@ const Details = () => {
                     <ColumnText>
                         <TableCell style={{ color: '#878787' }}>Seller</TableCell>
                         <TableCell>
-                            <span style={{ color: '#2874f0' }}>SuperComNet</span>
+                            {/* <span style={{ color: '#2874f0' }}>SuperComNet</span> */}
                             <Typography>GST invoice available</Typography>
                             <Typography>View more sellers starting from ₹329</Typography>
                         </TableCell>
                     </ColumnText>
-                    <TableRow>
+                    {/* <TableRow>
                         <TableCell colSpan={2}>
                             <img src={adURL} style={{ width: 390 }} />
                         </TableCell>
-                    </TableRow>
+                    </TableRow> */}
                     <ColumnText>
                         <TableCell style={{ color: '#878787' }}>Description</TableCell>
                         <TableCell>{product.description}</TableCell>

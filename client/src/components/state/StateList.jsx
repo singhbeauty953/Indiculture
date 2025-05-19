@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 
-// Define responsive breakpoints for the carousel
+// Responsive breakpoints for Carousel
 const responsive = {
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
@@ -28,11 +28,19 @@ const StateList = () => {
   const navigate = useNavigate();
   const { states } = useSelector((state) => state.getStates);
 
+  if (!states || states.length === 0) {
+    return (
+      <Box sx={{ color: '#fff', textAlign: 'center', py: 4 }}>
+        <Typography variant="h6">No states to display.</Typography>
+      </Box>
+    );
+  }
+
   return (
     <Box
       sx={{
-        px: 2,
-        py: 6,
+        px: { xs: 1, sm: 2, md: 4 },
+        py: { xs: 3, sm: 4, md: 6 },
         backgroundColor: '#121212',
         position: 'relative',
         '&::before': {
@@ -55,10 +63,10 @@ const StateList = () => {
       <Box sx={{ position: 'relative', zIndex: 1 }}>
         <Carousel
           responsive={responsive}
-          infinite={true}
-          autoPlay={true}
-          arrows={true}
-          keyBoardControl={true}
+          infinite
+          autoPlay
+          arrows
+          keyBoardControl
           containerClass="carousel-container"
           itemClass="carousel-item-padding-40-px"
         >
@@ -69,12 +77,12 @@ const StateList = () => {
                 backgroundColor: '#1e1e1e',
                 borderRadius: 3,
                 boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
-                padding: 2,
+                p: 2,
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
-                height: '430px',
-                mx: 1,
+                height: { xs: 'auto', md: '430px' },
+                mx: { xs: 0.5, sm: 1 },
                 transition: 'transform 0.3s ease-in-out',
                 '&:hover': {
                   transform: 'translateY(-5px)',
@@ -86,10 +94,11 @@ const StateList = () => {
               <Box
                 component="img"
                 src={state.image}
-                alt={state.name}
+                alt={state.name || 'State Image'}
+                loading="lazy"
                 sx={{
                   width: '100%',
-                  height: '200px',
+                  height: { xs: '160px', sm: '200px' },
                   objectFit: 'cover',
                   borderRadius: 2,
                   mb: 2,
@@ -97,7 +106,14 @@ const StateList = () => {
               />
 
               {/* Title */}
-              <Typography variant="h6" sx={{ color: '#fff', mb: 1 }}>
+              <Typography
+                variant="h6"
+                sx={{
+                  color: '#fff',
+                  mb: 1,
+                  fontSize: { xs: '1rem', sm: '1.1rem', md: '1.25rem' },
+                }}
+              >
                 {state.name}
               </Typography>
 
@@ -113,6 +129,7 @@ const StateList = () => {
                   display: '-webkit-box',
                   WebkitLineClamp: 3,
                   WebkitBoxOrient: 'vertical',
+                  fontSize: { xs: '0.85rem', sm: '0.9rem' },
                 }}
               >
                 {state.description}
@@ -126,12 +143,15 @@ const StateList = () => {
                   color: '#fff',
                   textTransform: 'uppercase',
                   fontWeight: 600,
-                  width: 'fit-content',
-                  alignSelf: 'flex-start',
+                  fontSize: { xs: '0.7rem', sm: '0.8rem' },
+                  width: '100%',
+                  mt: 'auto',
                 }}
-                onClick={() => navigate(`/StateNav/${state.name.toLowerCase()}`)}
+                onClick={() =>
+                  navigate(`/StateNav/${encodeURIComponent(state.name.toLowerCase())}`)
+                }
               >
-                Buy Now
+                Explore
               </Button>
             </Box>
           ))}

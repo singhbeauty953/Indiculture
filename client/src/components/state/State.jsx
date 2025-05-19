@@ -8,19 +8,19 @@ import { getStates } from '../../redux/actions/stateActions';
 import { useDispatch, useSelector } from 'react-redux';
 
 const CarouselWrapper = styled('div')({
-  width: '100%',
+  width: '2200px',
   overflow: 'hidden',
-  paddingBottom: '40px', // bottom spacing
+  paddingBottom: '20px', // bottom spacing
 });
 
 const ImageContainer = styled('div')({
-  padding: '10px',
+  padding: '5px',
   boxSizing: 'border-box',
 });
 
 const ImageBox = styled('img')({
   width: '100%',
-  height: '400px',
+  height: '340px',
   objectFit: 'cover',
   borderRadius: '6px',
   display: 'block',
@@ -28,9 +28,9 @@ const ImageBox = styled('img')({
 
 const responsive = {
   desktop: {
-    breakpoint: { max: 3000, min: 1024 },
+    breakpoint: { max: 2500, min: 1024 },
     items: 3,
-    slidesToSlide: 1,
+    slidesToSlide: 2,
   },
   tablet: {
     breakpoint: { max: 1024, min: 768 },
