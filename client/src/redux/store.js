@@ -1,5 +1,5 @@
 import { createStore, combineReducers, applyMiddleware ,compose} from 'redux';
-import {thunk} from 'redux-thunk'; // ✅ Corrected import
+import thunk from 'redux-thunk';
 //import { composeWithDevTools } from 'redux-devtools-extension'; // ✅ Corrected usage
 
 import { getProductsReducer, getProductDetailsReducer,} from './reducers/productReducer';
