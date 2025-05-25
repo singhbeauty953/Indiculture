@@ -5,13 +5,11 @@ import {
   styled,
   Badge,
   Typography,
-  useTheme,
-  useMediaQuery,
+  Menu,
+  MenuItem,
 } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-
 import LoginDialog from '../login/LoginDialog';
 import { DataContext } from '../../context/Dataprovider';
 import Profile from './Profile';
@@ -30,7 +28,7 @@ const Container = styled(Box)(({ theme }) => ({
   },
 }));
 
-const HighlightedStateButton = styled(Button)(({ theme }) => ({
+const HighlightedStateButton = styled(Button)({
   background: 'linear-gradient(90deg, #ff9933, #ffffff 50%, #138808)',
   color: '#000',
   textTransform: 'none',
@@ -42,7 +40,7 @@ const HighlightedStateButton = styled(Button)(({ theme }) => ({
     boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)',
     transform: 'translateY(-2px)',
   },
-}));
+});
 
 const LoginButton = styled(Button)(({ theme }) => ({
   color: 'black',
@@ -82,16 +80,17 @@ const StyledLink = styled(Link)({
   textDecoration: 'none',
 });
 
-const CustomButtons = () => {
+const CustomButtons = ({ cartItems = [] }) => {
   const [open, setOpen] = useState(false);
-  const { account, setAccount } = useContext(DataContext);
-  const cartDetails = useSelector((state) => state.cart);
-  const { cartItems = [] } = cartDetails;
+  const [menuAnchor, setMenuAnchor] = useState(null);
 
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const { account, setAccount } = useContext(DataContext);
 
   const openDialog = () => setOpen(true);
+  const handleMoreClick = (event) => setMenuAnchor(event.currentTarget);
+  const handleMenuClose = () => setMenuAnchor(null);
+
+  const cartItemCount = cartItems.reduce((acc, item) => acc + (item.count || 1), 0);
 
   return (
     <Container>
@@ -105,10 +104,15 @@ const CustomButtons = () => {
         <HighlightedStateButton>State</HighlightedStateButton>
       </StyledLink>
 
-      <MoreText>More</MoreText>
+      <MoreText onClick={handleMoreClick}>More</MoreText>
+      <Menu anchorEl={menuAnchor} open={Boolean(menuAnchor)} onClose={handleMenuClose}>
+        <MenuItem onClick={handleMenuClose}>About Us</MenuItem>
+        <MenuItem onClick={handleMenuClose}>Contact</MenuItem>
+        <MenuItem onClick={handleMenuClose}>Help</MenuItem>
+      </Menu>
 
-      <CartLink to="/cart">
-        <Badge badgeContent={cartItems.length} color="secondary">
+      <CartLink to="/StateCart">
+        <Badge badgeContent={cartItemCount} color="secondary">
           <ShoppingCartIcon />
         </Badge>
         <Typography sx={{ ml: 1 }}>Cart</Typography>

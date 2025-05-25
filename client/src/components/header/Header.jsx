@@ -16,7 +16,6 @@ import CustomButtons from './CustomButtons';
 import { Menu } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 
-// Styled Components
 const StyledHeader = styled(AppBar)`
   background: #2e1a47;
   height: 58px;
@@ -84,7 +83,7 @@ const SearchWrapper = styled(Box)(({ theme }) => ({
   },
 }));
 
-function Header() {
+function Header({ cartAllProduct, setCartAllProduct }) {
   const [open, setOpen] = useState(false);
 
   const handleClose = () => {
@@ -103,7 +102,8 @@ function Header() {
       <List sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <ListItem disablePadding>
           <Box sx={{ width: '100%' }}>
-            <CustomButtons isMobileView />
+            {/* Pass cart props to CustomButtons */}
+            <CustomButtons isMobileView cartItems={cartAllProduct} setCartAllProduct={setCartAllProduct} />
           </Box>
         </ListItem>
       </List>
@@ -142,7 +142,8 @@ function Header() {
         </SearchWrapper>
 
         <CustomButtonWrapper>
-          <CustomButtons />
+          {/* Pass cart props here too */}
+          <CustomButtons cartItems={cartAllProduct} setCartAllProduct={setCartAllProduct} />
         </CustomButtonWrapper>
       </Toolbar>
     </StyledHeader>

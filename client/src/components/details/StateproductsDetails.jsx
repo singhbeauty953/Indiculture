@@ -1,12 +1,21 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { Box, Typography, Button, CardMedia, styled, Table, TableBody, TableRow, TableCell, Grid } from '@mui/material';
-import productList from '../../Constant/stateProducts';
-import { addToCart } from '../../redux/actions/cartAction';
+import {
+  Box,
+  Typography,
+  Button,
+  CardMedia,
+  styled,
+  Table,
+  TableBody,
+  TableRow,
+  TableCell,
+} from '@mui/material';
 import { LocalOffer as Badge } from '@mui/icons-material';
 
-
+import productList from '../../Constant/stateProducts';
+import { addToCart } from '../../redux/actions/cartAction';
 
 // Styled components
 const Strike = styled(Box)`
@@ -16,39 +25,40 @@ const Strike = styled(Box)`
 `;
 
 const StyledBadge = styled(Badge)`
-    margin-right: 10px;
-    color: #00CC00;
-    font-size: 15px;
+  margin-right: 10px;
+  color: #00CC00;
+  font-size: 15px;
 `;
+
 const SmallText = styled(Box)`
-
+  font-size: 14px;
+  color: #fff;
+  vertical-align: baseline;
+  & > p {
     font-size: 14px;
-    color: #fff;
-    vertical-align: baseline;
-    & > p {
-        font-size: 14px;
-        margin-top: 10px;
-    }
-`
-const ColumnText = styled(TableRow)`
-    font-size: 14px;
-    color: #fff;
-    vertical-align: baseline;
-    & > td {
-        font-size: 14px;
-        margin-top: 10px;
-    }
+    margin-top: 10px;
+  }
 `;
 
-const StateproductsDetails = () => {
+const ColumnText = styled(TableRow)`
+  font-size: 14px;
+  color: #fff;
+  vertical-align: baseline;
+  & > td {
+    font-size: 14px;
+    margin-top: 10px;
+  }
+`;
+
+const StateproductsDetails = ({ setProductId }) => {
   const { productId } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const allProducts = Object.values(productList).flat();
   const product = allProducts.find((p) => p.id.toString() === productId);
-  const adURL = 'https://rukminim1.flixcart.com/lockin/774/185/images/CCO__PP_2019-07-14.png?q=50';
 
-  const date = new Date(new Date().getTime()+(5*24*60*60*1000));
+  const date = new Date(new Date().getTime() + 5 * 24 * 60 * 60 * 1000);
 
   if (!product) {
     return (
@@ -58,16 +68,14 @@ const StateproductsDetails = () => {
     );
   }
 
-  const handleAddToCart = () => {
-    dispatch(
-      addToCart({
-        id: product.id,
-        title: { shortTitle: product.name },
-        price: product.price,
-        quantity: 1,
-        url: product.image,
-      })
-    );
+  const handleAddToCart = (id) => {
+    setProductId(id);
+    dispatch(addToCart(product));
+  };
+
+  const handleBuyNow = () => {
+    localStorage.setItem('checkoutProduct', JSON.stringify(product));
+    navigate('/checkout');
   };
 
   return (
@@ -95,7 +103,14 @@ const StateproductsDetails = () => {
         }}
       >
         {/* Image Section */}
-        <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Box
+          sx={{
+            flex: 1,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
           <CardMedia
             component="img"
             image={product.image}
@@ -124,40 +139,64 @@ const StateproductsDetails = () => {
           <Typography sx={{ color: '#33cc33', fontSize: 13, mb: 2 }}>
             8 Ratings & 1 Review
           </Typography>
-         <SmallText>
-            <Typography><StyledBadge />Bank Offer 5% Unlimited Cashback on Flipkart Axis Bank Credit Card</Typography>
-                <Typography><StyledBadge />Bank Offer 10% Off on Bank of Baroda Mastercard debit card first time transaction, Terms and Condition apply</Typography>
-                <Typography><StyledBadge />Purchase this Furniture or Appliance and Get Extra ₹500 Off on Select ACs</Typography>
-                <Typography><StyledBadge />Partner OfferExtra 10% off upto ₹500 on next furniture purchase</Typography>
-            </SmallText>
-            <Table>
-                <TableBody>
-                    <ColumnText>
-                        <TableCell style={{ color: '#fff' }}>Delivery</TableCell>
-                        <TableCell style={{ fontWeight: 600 ,color: '#fff' }}>Delivery by {date.toDateString()} | ₹40</TableCell>
-                    </ColumnText>
-                    <ColumnText>
-                        <TableCell style={{ color: '#fff' }}>Warranty</TableCell>
-                        <TableCell style={{ color: '#fff' }}>No Warranty</TableCell>
-                    </ColumnText>
-                    <ColumnText>
-                        <TableCell style={{ color: '#fff' }}>Seller</TableCell>
-                        <TableCell>
-                            <span style={{ color: '#fff' }}>SuperComNet</span>
-                            <Typography style={{ color: '#fff' }}>GST invoice available</Typography>
-                            <Typography style={{ color: '#fff' }}>View more sellers starting from ₹329</Typography>
-                        </TableCell>
-                    </ColumnText>
-                  
-                    <ColumnText>
-                        <TableCell style={{ color: '#fff' }}>Description</TableCell>
-                        <TableCell style={{ color: '#fff' }}>{product.description}</TableCell>
-                    </ColumnText>
-                </TableBody>
-            </Table>
+
+          <SmallText>
+            <Typography>
+              <StyledBadge />
+              Bank Offer 5% Unlimited Cashback on Flipkart Axis Bank Credit Card
+            </Typography>
+            <Typography>
+              <StyledBadge />
+              Bank Offer 10% Off on Bank of Baroda Mastercard debit card first time transaction
+            </Typography>
+            <Typography>
+              <StyledBadge />
+              Purchase this Furniture or Appliance and Get Extra ₹500 Off on Select ACs
+            </Typography>
+            <Typography>
+              <StyledBadge />
+              Partner OfferExtra 10% off upto ₹500 on next furniture purchase
+            </Typography>
+          </SmallText>
+
+          <Table>
+            <TableBody>
+              <ColumnText>
+                <TableCell style={{ color: '#fff' }}>Delivery</TableCell>
+                <TableCell style={{ fontWeight: 600, color: '#fff' }}>
+                  Delivery by {date.toDateString()} | ₹40
+                </TableCell>
+              </ColumnText>
+              <ColumnText>
+                <TableCell style={{ color: '#fff' }}>Warranty</TableCell>
+                <TableCell style={{ color: '#fff' }}>No Warranty</TableCell>
+              </ColumnText>
+              <ColumnText>
+                <TableCell style={{ color: '#fff' }}>Seller</TableCell>
+                <TableCell>
+                  <span style={{ color: '#fff' }}>SuperComNet</span>
+                  <Typography style={{ color: '#fff' }}>
+                    GST invoice available
+                  </Typography>
+                  <Typography style={{ color: '#fff' }}>
+                    View more sellers starting from ₹329
+                  </Typography>
+                </TableCell>
+              </ColumnText>
+              <ColumnText>
+                <TableCell style={{ color: '#fff' }}>Description</TableCell>
+                <TableCell style={{ color: '#fff' }}>
+                  {product.description}
+                </TableCell>
+              </ColumnText>
+            </TableBody>
+          </Table>
 
           <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-            <Typography component="span" sx={{ color: '#ff9933', fontSize: 20, fontWeight: 600 }}>
+            <Typography
+              component="span"
+              sx={{ color: '#ff9933', fontSize: 20, fontWeight: 600 }}
+            >
               ₹{product.price.cost}
             </Typography>
             <Strike component="span">₹{product.price.mrp}</Strike>
@@ -170,10 +209,16 @@ const StateproductsDetails = () => {
             {product.description}
           </Typography>
 
-          <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2 }}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', sm: 'row' },
+              gap: 2,
+            }}
+          >
             <Button
               variant="outlined"
-              onClick={handleAddToCart}
+              onClick={() => handleAddToCart(product.id)}
               sx={{
                 borderRadius: 20,
                 fontSize: 14,
@@ -188,8 +233,10 @@ const StateproductsDetails = () => {
             >
               Add to Cart
             </Button>
+
             <Button
               variant="contained"
+              onClick={handleBuyNow}
               sx={{
                 borderRadius: 20,
                 fontSize: 14,
